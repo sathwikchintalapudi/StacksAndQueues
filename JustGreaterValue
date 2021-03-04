@@ -1,0 +1,45 @@
+package com.afklm.bre.factmodel.checkoutv2;
+
+import java.util.Arrays;
+import java.util.Stack;
+
+public class Check {
+
+    public static void main(String[] args) {
+
+        Check check = new Check();
+        int[] input = new int[]{10, 7, 4, 2, 9, 10, 11, 8, 3, 2};
+        System.out.println(Arrays.toString(check.jgv(input)));
+    }
+
+    private int[] jgv(int[] input) {
+        Stack<Pair> s = new Stack<>();
+        s.push(new Pair(input[0], 0));
+        for (int i = 1; i < input.length; i++) {
+            while (!s.isEmpty() && input[i] > s.peek().value) {
+                updateInput(s.pop(), input[i], input);
+            }
+            s.push(new Pair(input[i], i));
+        }
+        while (!s.isEmpty()) {
+            updateInput(s.pop(), -1, input);
+        }
+        return input;
+    }
+
+    private void updateInput(Pair elementToUpdated, int jgvValue, int[] input) {
+        input[elementToUpdated.index] = jgvValue;
+    }
+
+
+    private class Pair {
+        private int value;
+        private int index;
+
+        Pair(int value, int index) {
+            this.value = value;
+            this.index = index;
+        }
+    }
+
+}
