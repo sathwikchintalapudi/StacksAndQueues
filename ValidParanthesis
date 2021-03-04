@@ -1,0 +1,44 @@
+package com.afklm.bre.factmodel.checkoutv2;
+
+import java.util.Stack;
+import java.util.Map;
+import java.util.HashMap;
+
+public class Check {
+
+    public static void main(String[] args) {
+        Check check = new Check();
+        System.out.println(check.isInputValid("{{}})"));
+    }
+
+    private boolean isInputValid(String input) {
+
+        Map<Character, Character> reference = new HashMap<>();
+
+        reference.put('}', '{');
+        reference.put(')', '(');
+        reference.put(']', '[');
+
+        Stack<Character> bracketCheck = new Stack<>();
+        char[] brackets = input.toCharArray();
+
+        bracketCheck.push(brackets[0]);
+
+        for (int i = 1; i < brackets.length; i++) {
+
+            if (!bracketCheck.isEmpty() && bracketCheck.peek() == reference.get(brackets[i])) {
+                bracketCheck.pop();
+            } else {
+                bracketCheck.push(brackets[i]);
+            }
+        }
+
+        if (bracketCheck.isEmpty()) {
+            return true;
+        }
+
+        return false;
+
+    }
+
+}
