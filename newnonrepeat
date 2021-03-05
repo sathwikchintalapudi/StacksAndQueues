@@ -1,0 +1,44 @@
+//iterate through the given array of characters 
+
+//Maintain elibile Ans in a queue
+
+//Maintain frequence Map
+
+
+private void getNonRepetitiveChar(String input) {
+
+char[] charStream = input.toCharArray();
+
+Queue<Character> queue = new LinkedList<>();
+
+Map<Character, Integer> reference = new HashMap<>();
+
+	for(int i = 0; i < charStream.length; i++) {
+
+		if(!reference.containsKey(charStream[i])) {
+			queue.add(charStream[i]);
+			reference.put(charStream[i], 1);
+		} 
+		else {
+			reference.put(charStream[i], regerence.get(charStream[i]) + 1);
+			while(!queue.isEmpty()) {
+			
+			     
+			    if(reference.get(queue.peek()) > 1) {
+					queue.remove();
+				}
+				if(reference.get(queue.peek()) == 1) {
+				    break;
+				}
+			}			
+		}
+	}
+	
+	if(!queue.isEmpty()) {
+		System.out.println("No unique elements present");
+	}
+	else {
+		System.out.println(queue.element());
+	}
+	
+} 
