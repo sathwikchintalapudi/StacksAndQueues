@@ -1,0 +1,66 @@
+package com.afklm.bre.factmodel.checkoutv2;
+
+import java.util.Stack;
+
+public class Check {
+
+
+    public static void main(String[] args) {
+        Check check = new Check();
+        int[] input = {7, 8, 3, 1, 1, 1, 1, 5};
+        int[] leftMins = check.getRightMin(input);
+        int[] rightMins = check.getLeftMin(input);
+        int maxArea = check.getMaxRectangleArea(leftMins, rightMins, input);
+        System.out.println(maxArea);
+    }
+
+    private int[] getRightMin(int[] input) {
+
+        Stack<Integer> rightMinStack = new Stack<>();
+        int[] rightMins = new int[input.length];
+
+        for (int i = 0; i < input.length; i++) {
+            if (rightMinStack.isEmpty()) {
+                rightMins[i] = 0;
+                rightMinStack.push(i);
+            } else {
+                while (!rightMinStack.isEmpty() && (input[rightMinStack.peek()] > input[i])) {
+                    rightMinStack.pop();
+                }
+                rightMins[i] = rightMinStack.isEmpty() ? 0 : rightMinStack.peek() + 1;
+            }
+        }
+        return rightMins;
+    }
+
+    private int[] getLeftMin(int[] input) {
+
+        Stack<Integer> leftMinStack = new Stack<>();
+        int[] leftMins = new int[input.length];
+
+        for (int i = input.length - 1; i >= 0; i--) {
+            if (leftMinStack.isEmpty()) {
+                leftMins[i] = 5;
+                leftMinStack.push(i);
+            } else {
+                while (!leftMinStack.isEmpty() && (leftMinStack.peek() >= input[i])) {
+                    leftMinStack.pop();
+                }
+                leftMins[i] = leftMinStack.isEmpty() ? 0 : leftMinStack.peek() - 1;
+            }
+        }
+
+        return leftMins;
+    }
+
+    private int getMaxRectangleArea(int[] leftMins, int[] rightMins, int[] input) {
+        int maxArea = Integer.MIN_VALUE;
+        int area;
+        for (int i = 0; i < leftMins.length; i++) {
+            area = ((rightMins[i] - leftMins[i]) + 1) * input[i];
+            maxArea = Math.max(area, maxArea);
+        }
+        return maxArea;
+    }
+
+}
